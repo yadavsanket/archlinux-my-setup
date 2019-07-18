@@ -45,19 +45,19 @@
     vg: "{{ vg }}"
     lv: "vl_{{ item.0 }}"
     size: "{{ item.1.size }}"
-  with_indexed_items: storage.volumes
+  with_indexed_items: "{{ storage.volumes }}"
 
 - name: "Format data values"
   filesystem:
     fstype: "{{ item.1.type }}"
     dev: "/dev/{{ vg }}/vl_{{ item.0 }}"
   when: item.1.type != "swap"
-  with_indexed_items: storage.volumes
+  with_indexed_items: "{{ storage.volumes }}"
 
 - name: "Setup swap partition"
   shell: "{{ mkswap_exec }} /dev/{{ vg }}/vl_{{ item.0 }} && /usr/bin/swapon /dev/{{ vg }}/vl_{{ item.0 }}"
   when: item.1.type == "swap"
-  with_indexed_items: storage.volumes
+  with_indexed_items: "{{ storage.volumes }}"
 
 - name: "Mount volumes"
   mount:
@@ -67,4 +67,4 @@
     opts: defaults
     state: mounted
   when: item.1.type != "swap"
-  with_indexed_items: storage.volumes
+  with_indexed_items: "{{ storage.volumes }}"

@@ -10,17 +10,17 @@
 
   - name: "install packages from official repository"
     pacman: name={{item}}
-    with_items: packages.official
+    with_items: "{{ packages.official }}"
     when: packages.official is defined
 
   - name: "install packages from aur repository"
     command: "{{ yaourt_exec }} {{item}}"
-    with_items: packages.aur
+    with_items: "{{ packages.aur }}"
     when: packages.aur is defined
     become: yes
     become_user: andre
 
   - name: "Enables configured services"
     service: "name={{item}}.service enabled=yes state=started"
-    with_items: services
+    with_items: "{{ services }}"
     when: services is defined

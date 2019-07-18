@@ -4,7 +4,7 @@
     dest: /etc/locale.gen
     regexp: "^#{{ item }}.*$"
     replace: "{{ item }}"
-  with_items: locale.languages
+  with_items: "{{ locale.languages }}"
 
 - name: "Exports first configured locale to /etc/locale.conf"
   lineinfile:
@@ -12,7 +12,7 @@
     line: "LANG={{ item.1.split(' ')[0] }}"
     create: yes
   when: item.0 == 0
-  with_indexed_items: locale.languages
+  with_indexed_items: "{{ locale.languages }}"
 
 - name: "Exports first configured locale to /etc/rc.conf"
   lineinfile:
@@ -20,7 +20,7 @@
     line: "LANG={{ item.1.split(' ')[0] }}"
     create: yes
   when: item.0 == 0
-  with_indexed_items: locale.languages
+  with_indexed_items: "{{ locale.languages }}"
 
 - name: "Writes /etc/vconsole.conf"
   lineinfile:
