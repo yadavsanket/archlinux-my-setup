@@ -14,8 +14,8 @@
 - name: "Add lvm hook in /etc/mkinitcpio.conf"
   lineinfile:
     dest: /etc/mkinitcpio.conf
-    regexp: "HOOKS=\"base udev autodetect modconf block filesystems keyboard fsck\"$"
-    line: "HOOKS=\"base udev autodetect modconf block lvm2 filesystems keyboard fsck\""
+    regexp: "HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)$"
+    line: "HOOKS=(base udev autodetect modconf block lvm2 filesystems keyboard fsck)"
 
 - name: "Generates ramdisk with mkinitcpio"
   command: /bin/mkinitcpio -p linux chdir=/boot
